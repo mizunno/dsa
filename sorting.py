@@ -24,15 +24,20 @@ def bubble_sort(elements):
 
     return elements
 
-def merge_sort(elements):
-    pass
-
-def selection_sort(elements):
-    pass
 
 def insertion_sort(elements):
-    pass
+    """
+    Sorts a list using the Insertion Sort algorithm.
+    (https://www.programiz.com/dsa/insertion-sort)
+    """
+    for i in range(1, len(elements)):
 
-def quick_sort(elements):
-    pass
+        # sort one item at a time
+        j = i 
 
+        # keep swapping until the item is sort or at the first position
+        while j > 0 and elements[j - 1] > elements[j]:
+            elements[j - 1], elements[j] = elements[j], elements[j - 1]
+            j -= 1
+    
+    return elements
