@@ -41,3 +41,22 @@ def insertion_sort(elements):
             j -= 1
     
     return elements
+
+
+def selection_sort(elements):
+    """
+    Sort a list using the Selection Sort algorithm.
+    (https://www.programiz.com/dsa/selection-sort)
+    """
+
+    for i in range(len(elements)):
+        smallest_idx = i
+
+        # search for the smallest idx
+        for j in range(smallest_idx + 1, len(elements)):
+            if elements[j] < elements[smallest_idx]:
+                smallest_idx = j
+
+        elements[smallest_idx], elements[i] = elements[i], elements[smallest_idx]
+
+    return elements
