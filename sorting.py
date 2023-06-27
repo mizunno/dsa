@@ -111,3 +111,41 @@ def merge_sort(elements):
         right_idx+=1;
 
     return merged
+
+
+def quick_sort(elements):
+    """
+    Sorts a list using the Quick Sort algorithm. It is
+    a Divide and Conquer algorithm.
+    - Divide: divides the list into two sublists based
+        on a pivot element. Lower elements than the pivot are
+        place on the left and greater on the right.
+    - Conquer: combines the sublists.
+    """
+
+    # Base case: return the list if it has only one element
+    if len(elements) <= 1:
+        return elements
+    
+    # Select the pivot element. The ideal pivot element
+    # would be exactly in the center of the final sorted list
+    pivot = elements[-1]
+
+    # Create two sublists for elements lower and greater than the pivot
+    lower = []
+    greater = []
+
+    # Partition the elements into lower and greater sublists based on the pivot
+    for e in elements[:-1]:
+        if e <= pivot:
+            lower.append(e)
+        else:
+            greater.append(e)
+
+    # Recursive calls to sort the lower and greater sublists
+    lower = quick_sort(lower)
+    greater = quick_sort(greater)
+
+    # At this point, lower and greater sublists are already sorted,
+    # so we concatenate them with the pivot to form the final sorted list
+    return lower + [pivot] + greater
