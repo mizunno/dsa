@@ -145,7 +145,6 @@ def quick_sort(elements):
 
         return arr[1], p
 
-        
 
     # Base case: return the list if it has only one element
     if len(elements) <= 1:
