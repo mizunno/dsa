@@ -10,6 +10,11 @@ class TestSorting(unittest.TestCase):
             sorted_list = sorting_func(input_list)
             self.assertListEqual(expected_list, sorted_list)
 
+            input_list = [1, 1, 2, 6, 4, 7, 8, 6, 2]
+            expected_list = [1, 1, 2, 2, 4, 6, 6, 7, 8]
+            sorted_list = sorting_func(input_list)
+            self.assertListEqual(expected_list, sorted_list)
+
 
     def reversed_list_sorting_test(self, sorting_func, case):
         with self.subTest(case=case + ' - Reversed List'):

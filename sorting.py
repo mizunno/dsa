@@ -123,24 +123,54 @@ def quick_sort(elements):
     - Conquer: combines the sublists.
     """
 
+    def median_of_3(elements):
+        """
+        Return the median of three. It selects three elements from the
+        given list and return one of them as the median. It also return
+        the index in the given list.
+        """
+        mid = len(elements)//2
+
+        arr = [elements[0], elements[mid], elements[-1]]
+        p = mid
+
+        if arr[0] > arr[1]:
+            arr[0], arr[1] = arr[1], arr[0]
+            p = 0
+        if arr[0] > arr[2]:
+            arr[0], arr[2], arr[2], arr[0]
+        if arr[1] > arr[2]:
+            arr[1], arr[2] = arr[2], arr[1]
+            p = len(elements) - 1
+
+        return arr[1], p
+
+        
+
     # Base case: return the list if it has only one element
     if len(elements) <= 1:
         return elements
     
     # Select the pivot element. The ideal pivot element
     # would be exactly in the center of the final sorted list
-    pivot = elements[-1]
+    # Median of 3 is a technique to select a well pivot element
+    pivot, p = median_of_3(elements)
 
     # Create two sublists for elements lower and greater than the pivot
     lower = []
     greater = []
 
     # Partition the elements into lower and greater sublists based on the pivot
-    for e in elements[:-1]:
-        if e <= pivot:
-            lower.append(e)
+    for i in range(len(elements)):
+
+        # Jump the pivot
+        if i == p:
+            continue
+
+        if elements[i] <= pivot:
+            lower.append(elements[i])
         else:
-            greater.append(e)
+            greater.append(elements[i])
 
     # Recursive calls to sort the lower and greater sublists
     lower = quick_sort(lower)
