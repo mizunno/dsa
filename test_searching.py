@@ -5,16 +5,16 @@ import searching
 class TestSearching(unittest.TestCase):
 
     def test_linear_search(self):
-        l = [0,1,2,3,4,5,6,7,8,9]
+        data = [0,1,2,3,4,5,6,7,8,9]
 
-        for t in l:
-            self.assertTrue(searching.linear_search(l, t))
+        for target in data:
+            self.assertTrue(searching.linear_search(data, target))
 
     def test_binary_search(self):
-        l = [0,1,2,3,4,5,6,7,8,9]
+        data = [0,1,2,3,4,5,6,7,8,9]
 
-        for t in l:
-            self.assertTrue(searching.binary_search(l, t))
+        for target in data:
+            self.assertTrue(searching.binary_search(data, target))
 
 
 if __name__ == "__main__":
