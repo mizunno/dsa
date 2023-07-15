@@ -9,13 +9,29 @@ class BST:
 
 
     def insert(self, value):
-        pass
+        if value < self.value:
+            if not self.left:
+                self.left = BST(value)
+            else:
+                self.left.insert(value)
+        
+        else:
+            if not self.right:
+                self.right = BST(value)
+            else:
+                self.right.insert(value)
 
-    def min(self, value):
-        pass
+    def min(self):
+        if not self.left:
+            return self.value
+        
+        return self.left.min()
 
-    def max(self, value):
-        pass
+    def max(self):
+        if not self.right:
+            return self.value
+        
+        return self.right.max()
 
     def delete(self, value):
         pass
