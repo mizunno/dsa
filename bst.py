@@ -7,10 +7,8 @@ class BST:
     def __init__(self, value):
         """
         Initialize a new instance of the BST class with the given value.
-
-        Args:
-            value: The value to be assigned to the current node.
         """
+
         self.value = value
         self.left = None
         self.right = None
@@ -19,13 +17,8 @@ class BST:
     def insert(self, value):
         """
         Insert a new node with the given value into the BST.
-
-        Args:
-            value: The value to be inserted.
-
-        Returns:
-            None
         """
+
         if value < self.value:
             if not self.left:
                 self.left = BST(value)
@@ -41,11 +34,9 @@ class BST:
 
     def min(self):
         """
-        Find the minimum value in the BST.
-
-        Returns:
-            The minimum value in the BST.
+        Return the minimum value in the BST.
         """
+
         if not self.left:
             return self.value
         
@@ -55,10 +46,8 @@ class BST:
     def max(self):
         """
         Find the maximum value in the BST.
-
-        Returns:
-            The maximum value in the BST.
         """
+
         if not self.right:
             return self.value
         
@@ -68,13 +57,9 @@ class BST:
     def delete(self, value):
         """
         Delete a node with the given value from the BST.
-
-        Args:
-            value: The value of the node to be deleted.
-
-        Returns:
-            The root node of the modified BST.
+        Return the root node of the modified BST.
         """
+
         if not self.value:
             return
         
@@ -109,14 +94,10 @@ class BST:
 
     def preorder(self, visited = []):
         """
-        Perform a preorder traversal of the BST.
-
-        Args:
-            visited: A list to store the visited nodes. (Default: [])
-
-        Returns:
-            A list of visited nodes in preorder traversal order.
+        Perform a preorder traversal of the BST and return
+        the visited nodes as a list.
         """
+
         if self.value:
             visited.append(self.value)
 
@@ -131,14 +112,10 @@ class BST:
 
     def postorder(self, visited = []):
         """
-        Perform a postorder traversal of the BST.
-
-        Args:
-            visited: A list to store the visited nodes. (Default: [])
-
-        Returns:
-            A list of visited nodes in postorder traversal order.
+        Perform a postorder traversal of the BST and return
+        the visited nodes as a list.
         """
+
         if self.left:
             visited = self.left.postorder(visited)
         
@@ -153,14 +130,10 @@ class BST:
 
     def inorder(self, visited = []):
         """
-        Perform an inorder traversal of the BST.
-
-        Args:
-            visited: A list to store the visited nodes. (Default: [])
-
-        Returns:
-            A list of visited nodes in inorder traversal order.
+        Perform an inorder traversal of the BST and return
+        the visited nodes as a list.
         """
+
         if self.left:
             visited = self.left.inorder(visited)
 
@@ -176,9 +149,7 @@ class BST:
     def __repr__(self) -> str:
         """
         Return a string representation of the node's value.
-
-        Returns:
-            The string representation of the node's value.
         """
+        
         return str(self.value)
     
