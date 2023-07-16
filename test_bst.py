@@ -143,14 +143,73 @@ class TestBST(unittest.TestCase):
         self.assertEqual(self.bst.right.value, 15)
 
 
-    def preorder(self):
-        pass
+    def test_preorder(self):
+        
+        """
+            -> 15
+        10 
+                    -> 9
+                -> 8
+                    -> 6
+            -> 5
+                -> 2
 
-    def postorder(self):
-        pass
+        preorder -> [10,5,2,8,6,9,15]
+        """
 
-    def inorder(self):
-        pass
+        self.bst.insert(5)
+        self.bst.insert(15)
+        self.bst.insert(2)
+        self.bst.insert(8)
+        self.bst.insert(6)
+        self.bst.insert(9)
+
+        self.assertListEqual(self.bst.preorder(), [10,5,2,8,6,9,15])
+
+
+    def test_postorder(self):
+        """
+            -> 15
+        10 
+                    -> 9
+                -> 8
+                    -> 6
+            -> 5
+                -> 2
+
+        postorder -> [2,6,9,8,5,15,10]
+        """
+
+        self.bst.insert(5)
+        self.bst.insert(15)
+        self.bst.insert(2)
+        self.bst.insert(8)
+        self.bst.insert(6)
+        self.bst.insert(9)
+
+        self.assertListEqual(self.bst.postorder(), [2,6,9,8,5,15,10])
+
+    def test_inorder(self):
+        """
+            -> 15
+        10 
+                    -> 9
+                -> 8
+                    -> 6
+            -> 5
+                -> 2
+
+        postorder -> [2,5,6,8,9,10,15]
+        """
+
+        self.bst.insert(5)
+        self.bst.insert(15)
+        self.bst.insert(2)
+        self.bst.insert(8)
+        self.bst.insert(6)
+        self.bst.insert(9)
+
+        self.assertListEqual(self.bst.inorder(), [2,5,6,8,9,10,15])
 
 if __name__ == "__main__":
     unittest.main()

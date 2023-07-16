@@ -70,16 +70,46 @@ class BST:
 
 
 
-    def preorder(self):
-        pass
+    def preorder(self, visited = []):
+        
+        if self.value:
+            visited.append(self.value)
+
+        if self.left:
+            visited = self.left.preorder(visited)
+
+        if self.right:
+            visited = self.right.preorder(visited)
+
+        return visited
 
 
-    def postorder(self):
-        pass
+    def postorder(self, visited = []):
+        
+        if self.left:
+            visited = self.left.postorder(visited)
+        
+        if self.right:
+            visited = self.right.postorder(visited)
+
+        if self.value:
+            visited.append(self.value)
+
+        return visited
 
 
-    def inorder(self):
-        pass
+    def inorder(self, visited = []):
+        
+        if self.left:
+            visited = self.left.inorder(visited)
+
+        if self.value:
+            visited.append(self.value)
+
+        if self.right:
+            visited = self.right.inorder(visited)
+
+        return visited
 
 
     def __repr__(self) -> str:
