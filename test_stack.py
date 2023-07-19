@@ -55,7 +55,14 @@ class TestStack(unittest.TestCase):
 
         self.stack.pop()
         self.assertEqual(len(self.stack), 2)
+
     
+    def test_contains(self):
+        item = 1
+        self.assertFalse(item in self.stack)
+
+        self.stack.push(1)
+        self.assertTrue(item in self.stack)
 
 
 if __name__ == "__main__":

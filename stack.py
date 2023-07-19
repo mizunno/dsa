@@ -37,3 +37,7 @@ class Stack:
         Return the number of elements in the stack
         """
         return len(self.items)
+    
+
+    def __contains__(self, item):
+        return item in self.items

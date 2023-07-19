@@ -67,5 +67,13 @@ class TestQueue(unittest.TestCase):
         self.assertEqual(len(self.queue), 3)
 
 
+    def test_contains(self):
+        item = 1
+        self.assertFalse(item in self.queue)
+
+        self.queue.push(1)
+        self.assertTrue(item in self.queue)
+
+
 if __name__ == "__main__":
     unittest.main()
