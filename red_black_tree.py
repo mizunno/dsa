@@ -87,14 +87,17 @@ class RBTree:
 
         self.__fix_insert(node)
 
+    def delete(self):
+        pass
+
     def __fix_insert(self, node):
         """
-        Method to balance the tree each time we insert or delete
+        Balance the tree each time we insert or delete
         a node.
         """
         while node.parent and node.parent.red:
             uncle = None
-            if node.parent.parent.left == node.parent:
+            if self.__is_left_child(node.parent):
                 uncle = node.parent.parent.right
             else:
                 uncle = node.parent.parent.left
@@ -108,15 +111,15 @@ class RBTree:
                 node = node.parent.parent
             else:
                 # Case 2 left
-                if node.parent.right == node and node.parent.parent.left == node.parent:
+                if self.__is_right_child(node) and self.__is_left_child(node.parent):
                     self.__rotate_left(node.parent)
                     node = node.left
                 # Case 2 right
-                elif node.parent.left == node and node.parent.parent.right == node.parent:
+                elif self.__is_left_child(node) and self.__is_right_child(node.parent):
                     self.__rotate_right(node.parent)
                     node = node.right
                 # Case 3 left
-                elif node.parent.left == node and node.parent.parent.left == node.parent:
+                elif self.__is_left_child(node) and self.__is_left_child(node.parent):
                     self.__rotate_right(node.parent.parent)
                     node.parent.red = False
                     node.parent.right.red = True
@@ -143,7 +146,7 @@ class RBTree:
         if not pivot.parent:
             self.root = y
         # pivot is left child
-        elif pivot == pivot.parent.left:
+        elif self.__is_left_child(pivot):
             pivot.parent.left = y
         # pivot is right child
         else:
@@ -168,7 +171,7 @@ class RBTree:
         if not pivot.parent:
             self.root = y
         # pivot is left child
-        elif pivot == pivot.parent.left:
+        elif self.__isleft_child(pivot):
             pivot.parent.left = y
         # pivot is right child
         else:
@@ -178,5 +181,14 @@ class RBTree:
         pivot.parent = y
         y.right = pivot
 
-    def delete(self, key):
-        pass
+    def __is_left_child(self, node):
+        if node.parent:
+            return node.parent.left == node
+
+        return False
+
+    def __is_right_child(self, node):
+        if node.parent:
+            return node.parent.right == node
+
+        return False

@@ -1,11 +1,8 @@
 import unittest
-from red_black_tree import RBTree
+from red_black_tree import RBTree, RBNode
 
 
 class TestRBT(unittest.TestCase):
-
-    def setUp(self):
-        pass
 
     def test_only_root_without_parent(self):
         tree = RBTree(1)
@@ -19,7 +16,6 @@ class TestRBT(unittest.TestCase):
         tree.insert(1)
 
         self.assertEqual(tree.root.key, 1)
-
         self.assertFalse(tree.root.red)
 
     def test_insert_node_on_left(self):
@@ -29,9 +25,12 @@ class TestRBT(unittest.TestCase):
 
         tree.insert(0)
 
+        # Check node keys
         self.assertEqual(tree.root.key, 1)
-        self.assertFalse(tree.root.red)
         self.assertEqual(tree.root.left.key, 0)
+
+        # Check node colors
+        self.assertFalse(tree.root.red)
         self.assertTrue(tree.root.left.red)
 
     def test_insert_node_on_right(self):
@@ -41,9 +40,12 @@ class TestRBT(unittest.TestCase):
 
         tree.insert(2)
 
+        # Check node keys
         self.assertEqual(tree.root.key, 1)
-        self.assertFalse(tree.root.red)
         self.assertEqual(tree.root.right.key, 2)
+
+        # Check node colors
+        self.assertFalse(tree.root.red)
         self.assertTrue(tree.root.right.red)
 
     def test_insert_duplicate(self):
@@ -51,8 +53,10 @@ class TestRBT(unittest.TestCase):
 
         self.assertEqual(tree.root.key, 1)
 
+        # Insert duplicate value
         tree.insert(1)
 
+        # Check node keys
         self.assertEqual(tree.root.key, 1)
         self.assertEqual(tree.root.left, tree.NIL)
         self.assertEqual(tree.root.right, tree.NIL)
@@ -133,7 +137,7 @@ class TestRBT(unittest.TestCase):
 
     def test_insert_case_3_left(self):
         """
-        Case 3 is also tested in case 2, but we write
+        Case 3 is also tested in case 2, but we write a specific test
         """
         tree = RBTree()
 
@@ -153,7 +157,7 @@ class TestRBT(unittest.TestCase):
 
     def test_insert_case_3_right(self):
         """
-        Case 3 is also tested in case 2, but we write
+        Case 3 is also tested in case 2, but we write a specific test
         """
         tree = RBTree()
 
@@ -170,6 +174,40 @@ class TestRBT(unittest.TestCase):
         self.assertFalse(tree.root.red)
         self.assertTrue(tree.root.left.red)
         self.assertTrue(tree.root.right.red)
+
+    def test__is_left_child(self):
+        tree = RBTree()
+        parent = RBNode(1)
+        left_child = RBNode(0)
+        parent.left = left_child
+        left_child.parent = parent
+
+        self.assertTrue(tree._RBTree__is_left_child(left_child))
+
+    def test__is_right_child(self):
+        tree = RBTree()
+        parent = RBNode(1)
+        right_child = RBNode(0)
+        parent.right = right_child
+        right_child.parent = parent
+
+        self.assertTrue(tree._RBTree__is_right_child(right_child))
+
+    def test__is_not_left_child(self):
+        tree = RBTree()
+        parent = RBNode(1)
+        left_child = RBNode(0)
+        parent.right = left_child
+
+        self.assertFalse(tree._RBTree__is_left_child(left_child))
+
+    def test__is_not_right_child(self):
+        tree = RBTree()
+        parent = RBNode(1)
+        right_child = RBNode(0)
+        parent.left = right_child
+
+        self.assertFalse(tree._RBTree__is_right_child(right_child))
 
 
 if __name__ == "__main__":
