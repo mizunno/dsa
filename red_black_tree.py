@@ -87,8 +87,93 @@ class RBTree:
 
         self.__fix_insert(node)
 
-    def delete(self):
-        pass
+    def delete(self, key):
+        # find node to delete
+        node_to_delete = None
+
+        curr = self.root
+        while curr != self.NIL:
+            if curr.key == key:
+                node_to_delete = curr
+                break
+            elif key < curr.key:
+                curr = curr.left
+            else:
+                curr = curr.right
+
+        # key not in tree
+        if not node_to_delete:
+            return
+
+        y_original_color = node_to_delete.red
+
+        if node_to_delete.left == self.NIL:
+            x = node_to_delete.right
+
+            # transplant node_to_delete with x
+            if self.__is_left_child(node_to_delete):
+                x.parent = node_to_delete.parent
+                node_to_delete.parent.left = x
+            elif self.__is_right_child(node_to_delete):
+                x.parent = node_to_delete.parent
+                node_to_delete.parent.right = x
+            else:
+                x.parent = None
+                self.root = x
+
+        elif node_to_delete.right == self.NIL:
+            x = node_to_delete.left
+
+            # transplant node_to_delete with x
+            if self.__is_right_child(node_to_delete):
+                x.parent = node_to_delete.parent
+                node_to_delete.parent.right = x
+            elif self.__is_left_child(node_to_delete):
+                x.parent = node_to_delete.parent
+                node_to_delete.parent.right = x
+            else:
+                x.parent = None
+                self.root = x
+
+        else:
+            y = node_to_delete.right
+            while y.left != self.NIL:
+                y = y.left
+
+            y_original_color = y.red
+            x = y.right
+
+            if y.parent == node_to_delete:
+                x.parent = y
+            else:
+                # transplant y with y.right (x)
+                if self.__is_right_child(y):
+                    x.parent = y.parent
+                    y.parent.right = x
+                elif self.__is_left_child(y):
+                    x.parent = y.parent
+                    y.parent.left = x
+                else:
+                    x.parent = None
+                    self.root = x
+
+            # transplant node_to_delete with y
+            if self.__is_right_child(node_to_delete):
+                y.parent = node_to_delete.parent
+                node_to_delete.parent.right = y
+            elif self.__is_left_child(node_to_delete):
+                y.parent = node_to_delete.parent
+                node_to_delete.parent.left = y
+            else:
+                y.parent = None
+                self.root = y
+
+            y.red = y_original_color
+            y.left = node_to_delete.left
+            y.left.parent = y
+
+        if y_original_color is False:
+            self.__fix_delete(x)
 
     def __fix_insert(self, node):
         """
@@ -131,6 +216,10 @@ class RBTree:
 
         self.root.red = False
 
+    def __fix_delete(self):
+        # TODO
+        pass
+
     def __rotate_left(self, pivot):
         # pivot must exist and have a right child
         if pivot == self.NIL or pivot.right == self.NIL:
@@ -154,6 +243,7 @@ class RBTree:
 
         y.parent = pivot.parent
         pivot.parent = y
+        pivot.right = self.NIL
         y.left = pivot
 
     def __rotate_right(self, pivot):
@@ -171,7 +261,7 @@ class RBTree:
         if not pivot.parent:
             self.root = y
         # pivot is left child
-        elif self.__isleft_child(pivot):
+        elif self.__is_left_child(pivot):
             pivot.parent.left = y
         # pivot is right child
         else:
@@ -179,6 +269,7 @@ class RBTree:
 
         y.parent = pivot.parent
         pivot.parent = y
+        pivot.left = self.NIL
         y.right = pivot
 
     def __is_left_child(self, node):
