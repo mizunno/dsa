@@ -190,17 +190,53 @@ class TestRBT(unittest.TestCase):
         self.assertTrue(tree.root.left.red)
         self.assertTrue(tree.root.right.red)
 
-    def test_delete_root(self):
-        tree = RBTree()
-        tree.insert(1)
-        tree.insert(2)
-        tree.insert(3)
-
+    def test_delete_leaf_red(self):
+        tree = self.__create_tree()
         tree.delete(2)
 
+        # Check nodes
+        self.assertEqual(tree.root.key, 5)
+        self.assertEqual(tree.root.left.key, 3)
+        self.assertEqual(tree.root.left.right.key, 4)
+        self.assertEqual(tree.root.right.key, 10)
+
+        # Check colors
+        self.assertFalse(tree.root.red)
+        self.assertFalse(tree.root.left.red)
+        self.assertFalse(tree.root.right.red)
+        self.assertTrue(tree.root.left.right.red)
+
+    def test_delete_leaf_black(self):
+        tree = self.__create_tree()
+        tree.delete(10)
+
+        # Check nodes
         self.assertEqual(tree.root.key, 3)
-        self.assertEqual(tree.root.left.key, 1)
-        # TODO: check colors
+        self.assertEqual(tree.root.left.key, 2)
+        self.assertEqual(tree.root.right.key, 5)
+        self.assertEqual(tree.root.right.left.key, 4)
+
+        # Check colors
+        self.assertFalse(tree.root.red)
+        self.assertFalse(tree.root.left.red)
+        self.assertFalse(tree.root.right.red)
+        self.assertTrue(tree.root.right.left.red)
+
+    def test_delete_root(self):
+        tree = self.__create_tree()
+        tree.delete(5)
+
+        # Check nodes
+        self.assertEqual(tree.root.key, 3)
+        self.assertEqual(tree.root.left.key, 2)
+        self.assertEqual(tree.root.right.key, 10)
+        self.assertEqual(tree.root.right.left.key, 4)
+
+        # Check colors
+        self.assertFalse(tree.root.red)
+        self.assertFalse(tree.root.left.red)
+        self.assertFalse(tree.root.right.red)
+        self.assertTrue(tree.root.right.left.red)
 
     def __create_tree(self):
         tree = RBTree()
@@ -209,35 +245,21 @@ class TestRBT(unittest.TestCase):
         tree.insert(2)
         tree.insert(4)
         tree.insert(3)
-        tree.insert(15)
-        tree.insert(17)
-        tree.insert(12)
-        tree.insert(13)
 
-        return tree
-
-    def __check_tree(self, tree):
-        # check nodes
         self.assertEqual(tree.root.key, 5)
         self.assertEqual(tree.root.left.key, 3)
         self.assertEqual(tree.root.left.left.key, 2)
         self.assertEqual(tree.root.left.right.key, 4)
-        self.assertEqual(tree.root.right.key, 15)
-        self.assertEqual(tree.root.right.left.key, 12)
-        self.assertEqual(tree.root.right.left.left.key, 10)
-        self.assertEqual(tree.root.right.left.right.key, 13)
-        self.assertEqual(tree.root.right.right.key, 17)
+        self.assertEqual(tree.root.right.key, 10)
 
         # check colors
         self.assertFalse(tree.root.red)
         self.assertFalse(tree.root.left.red)
         self.assertTrue(tree.root.left.left.red)
         self.assertTrue(tree.root.left.right.red)
-        self.assertTrue(tree.root.right.red)
-        self.assertFalse(tree.root.right.left.red)
-        self.assertTrue(tree.root.right.left.left.red)
-        self.assertTrue(tree.root.right.left.right.red)
-        self.assertFalse(tree.root.right.right.red)
+        self.assertFalse(tree.root.right.red)
+
+        return tree
 
     def test__is_left_child(self):
         tree = RBTree()

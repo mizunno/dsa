@@ -109,32 +109,10 @@ class RBTree:
 
         if node_to_delete.left == self.NIL:
             x = node_to_delete.right
-
-            # transplant node_to_delete with x
-            if self.__is_left_child(node_to_delete):
-                x.parent = node_to_delete.parent
-                node_to_delete.parent.left = x
-            elif self.__is_right_child(node_to_delete):
-                x.parent = node_to_delete.parent
-                node_to_delete.parent.right = x
-            else:
-                x.parent = None
-                self.root = x
-
+            self.__transplant(node_to_delete, node_to_delete.right)
         elif node_to_delete.right == self.NIL:
             x = node_to_delete.left
-
-            # transplant node_to_delete with x
-            if self.__is_right_child(node_to_delete):
-                x.parent = node_to_delete.parent
-                node_to_delete.parent.right = x
-            elif self.__is_left_child(node_to_delete):
-                x.parent = node_to_delete.parent
-                node_to_delete.parent.right = x
-            else:
-                x.parent = None
-                self.root = x
-
+            self.__transplant(node_to_delete, node_to_delete.left)
         else:
             y = node_to_delete.right
             while y.left != self.NIL:
@@ -147,33 +125,28 @@ class RBTree:
                 x.parent = y
             else:
                 # transplant y with y.right (x)
-                if self.__is_right_child(y):
-                    x.parent = y.parent
-                    y.parent.right = x
-                elif self.__is_left_child(y):
-                    x.parent = y.parent
-                    y.parent.left = x
-                else:
-                    x.parent = None
-                    self.root = x
+                self.__transplant(y, y.right)
+                y.right = node_to_delete.right
+                y.right.parent = y
 
             # transplant node_to_delete with y
-            if self.__is_right_child(node_to_delete):
-                y.parent = node_to_delete.parent
-                node_to_delete.parent.right = y
-            elif self.__is_left_child(node_to_delete):
-                y.parent = node_to_delete.parent
-                node_to_delete.parent.left = y
-            else:
-                y.parent = None
-                self.root = y
-
-            y.red = y_original_color
+            self.__transplant(node_to_delete, y)
             y.left = node_to_delete.left
             y.left.parent = y
+            y.red = node_to_delete.red
 
         if y_original_color is False:
             self.__fix_delete(x)
+
+    def __transplant(self, x, y):
+        # Transplant x with y
+        if not x.parent:
+            self.root = y
+        elif self.__is_right_child(x):
+            x.parent.right = y
+        else:
+            x.parent.left = y
+        y.parent = x.parent
 
     def __fix_insert(self, node):
         """
@@ -216,9 +189,69 @@ class RBTree:
 
         self.root.red = False
 
-    def __fix_delete(self):
-        # TODO
-        pass
+    def __fix_delete(self, x):
+        while x != self.root and x.red is False:
+            if self.__is_left_child(x):
+                s = x.parent.right
+                # Case 1: x's sibling (s) is red
+                if s.red is True:
+                    s.red = False
+                    x.parent.red = True
+                    self.__rotate_left(x.parent)
+                    s = x.parent.right
+
+                # Case 2: x's sibling (s) is black, and both of s's children
+                # are black
+                if s.left.red is False and s.right.red is False:
+                    s.red = True
+                    x = x.parent
+                else:
+                    # Case 3: x's sibling (s) is black, s's left child is red
+                    # and s's right child is black
+                    if s.right.red is False:
+                        s.left.red = False
+                        s.red = True
+                        self.__rotate_right(s)
+                        s = x.parent.right
+
+                    # Case 4: x's sibling s is black, and s's right child is
+                    # red
+                    s.red = x.parent.red
+                    x.parent.red = False
+                    s.right.red = False
+                    self.__rotate_left(x.parent)
+                    x = self.root
+            else:
+                s = x.parent.left
+                # Case 1: x's sibling (s) is red
+                if s.red is True:
+                    s.red = False
+                    x.parent.red = True
+                    self.__rotate_right(x.parent)
+                    s = x.parent.left
+
+                # Case 2: x's sibling (s) is black, and both of s's children
+                # are black
+                if s.right.red is False and s.left.red is False:
+                    s.red = True
+                    x = x.parent
+                else:
+                    # Case 3: x's sibling (s) is black, s's right child is red
+                    # and s's left child is black
+                    if s.left.red is False:
+                        s.right.red = False
+                        s.red = True
+                        self.__rotate_left(s)
+                        s = x.parent.left
+
+                    # Case 4: x's sibling s is black, and s's left child is red
+                    s.red = x.parent.red
+                    x.parent.red = False
+                    s.left.red = False
+                    self.__rotate_right(x.parent)
+                    x = self.root
+
+        x.red = False
 
     def __rotate_left(self, pivot):
         # pivot must exist and have a right child
@@ -226,10 +259,13 @@ class RBTree:
             return
 
         y = pivot.right
+        pivot.right = y.left
 
         # set pivot as parent of the left child of y
         if y.left != self.NIL:
             y.left.parent = pivot
+
+        y.parent = pivot.parent
 
         # if pivot is root, set y as the new root
         if not pivot.parent:
@@ -241,9 +277,9 @@ class RBTree:
         else:
             pivot.parent.right = y
 
-        y.parent = pivot.parent
+        # y.parent = pivot.parent
         pivot.parent = y
-        pivot.right = self.NIL
+        # pivot.right = self.NIL
         y.left = pivot
 
     def __rotate_right(self, pivot):
@@ -252,11 +288,13 @@ class RBTree:
             return
 
         y = pivot.left
+        pivot.left = y.right
 
         # set pivot as parent of the right child of y
         if y.right != self.NIL:
             y.right.parent = pivot
 
+        y.parent = pivot.parent
         # if pivot is root, set y as the new root
         if not pivot.parent:
             self.root = y
@@ -267,9 +305,8 @@ class RBTree:
         else:
             pivot.parent.right = y
 
-        y.parent = pivot.parent
         pivot.parent = y
-        pivot.left = self.NIL
+        # pivot.left = self.NIL
         y.right = pivot
 
     def __is_left_child(self, node):
