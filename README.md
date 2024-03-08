@@ -21,6 +21,7 @@ In the future I would like to make this project a package that could be used to 
 | Selection sort | [link](https://www.programiz.com/dsa/selection-sort) | [sorting.py](https://github.com/mizunno/dsa/blob/master/sorting.py#L46) | [test_sorting.py](https://github.com/mizunno/dsa/blob/master/test_sorting.py)
 | Merge sort | [link](https://www.programiz.com/dsa/merge-sort) | [sorting.py](https://github.com/mizunno/dsa/blob/master/sorting.py#L65) | [test_sorting.py](https://github.com/mizunno/dsa/blob/master/test_sorting.py)
 | Quick sort | [link](https://www.programiz.com/dsa/quick-sort) | [sorting.py](https://github.com/mizunno/dsa/blob/master/sorting.py#L116) | [test_sorting.py](https://github.com/mizunno/dsa/blob/master/test_sorting.py)
+| Quick sort in-place | [link](https://www.csl.mtu.edu/cs2321/www/newLectures/11_Quick_Sort.html) | [sorting.py](https://github.com/mizunno/dsa/blob/master/sorting.py#L183) | [test_sorting.py](https://github.com/mizunno/dsa/blob/master/test_sorting.py)
 | Linear search | [link](https://www.programiz.com/dsa/linear-search) | [searching.py](https://github.com/mizunno/dsa/blob/master/searching.py#L3) | [test_searching.py](https://github.com/mizunno/dsa/blob/master/test_searching.py)
 | Binary search | [link](https://www.programiz.com/dsa/binary-search) | [searching.py](https://github.com/mizunno/dsa/blob/master/searching.py#L15) | [test_searching.py](https://github.com/mizunno/dsa/blob/master/test_searching.py)
 

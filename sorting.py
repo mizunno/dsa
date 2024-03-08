@@ -39,7 +39,7 @@ def insertion_sort(elements):
         while j > 0 and elements[j - 1] > elements[j]:
             elements[j - 1], elements[j] = elements[j], elements[j - 1]
             j -= 1
-    
+
     return elements
 
 
@@ -178,3 +178,37 @@ def quick_sort(elements):
     # At this point, lower and greater sublists are already sorted,
     # so we concatenate them with the pivot to form the final sorted list
     return lower + [pivot] + greater
+
+
+def quick_sort_in_place(elements):
+    """
+    In-place version of QuickSort.
+    """
+
+    def quick_sort_segment(elements, start, end):
+        # If the current segment is of len 0 or 1, then is
+        # already sorted.
+        if end - start <= 1:
+            return
+
+        pivot = elements[end - 1]
+        start_ptr, end_ptr = start, end - 1
+
+        while start_ptr < end_ptr:
+            while elements[start_ptr] < pivot and start_ptr < end_ptr:
+                start_ptr += 1
+
+            while elements[end_ptr] >= pivot and start_ptr < end_ptr:
+                end_ptr -= 1
+
+            elements[start_ptr], elements[end_ptr] = elements[end_ptr], elements[start_ptr]
+
+        elements[start_ptr], elements[end - 1] = elements[end - 1], elements[start_ptr]
+
+        quick_sort_segment(elements, start, start_ptr)
+        quick_sort_segment(elements, start_ptr + 1, end)
+
+    quick_sort_segment(elements, 0, len(elements))
+
+    return elements
+
